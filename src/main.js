@@ -3,9 +3,7 @@ import App from './App.vue'
 // Tailwind css
 import './style.css'
 // Axios
-import axios from 'axios'
-import VueAxios from 'vue-axios'
-Vue.use(VueAxios, axios)
+import './plugins/axios'
 // Router
 import router from './plugins/router'
 
