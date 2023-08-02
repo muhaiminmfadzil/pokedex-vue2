@@ -1,7 +1,7 @@
 <template>
-  <div class="bg-sky-50 p-4 h-screen">
-    <div class="container mx-auto">
-      <ul role="list" class="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+  <div class="bg-sky-50">
+    <div class="p-8 h-screen max-w-5xl mx-auto">
+      <ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         <li class="col-span-1 flex flex-col divide-y divide-gray-200 rounded-lg bg-white text-center shadow hover:cursor-pointer hover:shadow-lg">
           <div class="card-color flex flex-1 flex-col rounded-lg p-8">
             <div class="mx-auto flex h-36 w-36 items-center justify-center rounded-full bg-sky-200">
@@ -68,4 +68,7 @@ export default {
 </script>
 
 <style>
+.card-color {
+  background: linear-gradient(150deg, #7dd3fc 46%, transparent 46%);
+}
 </style>
