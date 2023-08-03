@@ -1,5 +1,6 @@
 <template>
   <div class="min-h-screen bg-sky-50">
+    <img class="object-cover w-64 h-32 pt-4 mx-auto" src="https://www.freepnglogos.com/uploads/pokemon-logo-png-0.png" alt="Pokemon Logo Png" />
     <ul role="list" class="grid max-w-4xl grid-cols-1 gap-6 p-8 mx-auto bg-sky-50 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       <pokemon-card v-for="pokemon in pokemons" :key="pokemon.name" :name="pokemon.name" :number="pokemon.number" />
     </ul>
