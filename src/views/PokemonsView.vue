@@ -3,14 +3,18 @@
     <ul role="list" class="grid max-w-4xl grid-cols-1 gap-6 p-8 mx-auto bg-sky-50 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       <pokemon-card v-for="pokemon in pokemons" :key="pokemon.name" :name="pokemon.name" :number="pokemon.number" />
     </ul>
+    <items-paginator />
   </div>
 </template>
 
 <script>
 import PokemonCard from '@/components/PokemonCard.vue';
+import ItemsPaginator from '@/components/ItemsPaginator.vue';
+
 export default {
   components: {
     PokemonCard,
+    ItemsPaginator,
   },
   data() {
     return {
