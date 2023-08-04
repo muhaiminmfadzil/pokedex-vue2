@@ -87,18 +87,20 @@ export default {
     paginationNumbers() {
       const getRange = (start, end) => {
         const length = end - start + 1;
-        return Array.from({ length }, (_, i) => start + i);
+        return Array(length)
+          .fill()
+          .map((_, i) => start + i);
       };
 
       const clamp = (number, lower, upper) => {
         return Math.min(Math.max(number, lower), upper);
       };
-
+      // Data preparation
       let currentPage = this.currentPage;
       const pageCount = this.totalPage;
       let pagesShown = 7;
       const MINIMUM_PAGE_SIZE = 5;
-
+      // Data validation
       let delta;
       currentPage = clamp(currentPage, 1, pageCount);
       pagesShown = clamp(pagesShown, MINIMUM_PAGE_SIZE, pageCount);
