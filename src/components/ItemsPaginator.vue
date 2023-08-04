@@ -24,14 +24,16 @@
               <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
             </svg>
           </button>
-          <!-- Current: "z-10 bg-indigo-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600", Default: "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0" -->
-          <button aria-current="page" class="relative z-10 inline-flex items-center px-4 py-2 text-sm font-semibold bg-indigo-800 text-indigo-50 focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">1</button>
+          <template v-for="paginate in paginationNumbers">
+            <button :key="paginate" class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">{{ paginate }}</button>
+          </template>
+          <!-- <button aria-current="page" class="relative z-10 inline-flex items-center px-4 py-2 text-sm font-semibold bg-indigo-300 text-indigo-50 focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">1</button>
           <button class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">2</button>
           <button class="relative items-center hidden px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 md:inline-flex">3</button>
           <span class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0">...</span>
           <button class="relative items-center hidden px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 md:inline-flex">8</button>
           <button class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">9</button>
-          <button class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">10</button>
+          <button class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">10</button> -->
           <button class="relative inline-flex items-center px-2 py-2 text-gray-400 rounded-r-md ring-1 ring-inset ring-gray-300" :class="[hasNext ? 'hover:bg-gray-50 focus:outline-offset-0 focus:z-20' : 'text-gray-300 bg-gray-100']" :disabled="!hasNext" @click="updatePage(1)">
             <span class="sr-only">Next</span>
             <svg class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -65,7 +67,7 @@ export default {
     },
   },
   computed: {
-    getTotalPage() {
+    totalPage() {
       if (this.totalCount === 0) return 1;
 
       return Math.ceil(this.totalCount / this.pageSize);
@@ -74,13 +76,68 @@ export default {
       return this.currentPage !== 1;
     },
     hasNext() {
-      return this.currentPage !== this.getTotalPage;
+      return this.currentPage !== this.totalPage;
     },
     fromCounter() {
       return this.offset + 1;
     },
     toCounter() {
       return this.offset + this.pageSize;
+    },
+    paginationNumbers() {
+      const getRange = (start, end) => {
+        const length = end - start + 1;
+        return Array.from({ length }, (_, i) => start + i);
+      };
+
+      const clamp = (number, lower, upper) => {
+        return Math.min(Math.max(number, lower), upper);
+      };
+
+      let currentPage = this.currentPage;
+      const pageCount = this.totalPage;
+      let pagesShown = 7;
+      const MINIMUM_PAGE_SIZE = 5;
+
+      let delta;
+      currentPage = clamp(currentPage, 1, pageCount);
+      pagesShown = clamp(pagesShown, MINIMUM_PAGE_SIZE, pageCount);
+      const centerPagesShown = pagesShown - 5;
+      const boundaryPagesShown = pagesShown - 3;
+
+      if (pageCount <= pagesShown) {
+        delta = pagesShown;
+      } else {
+        delta = currentPage < boundaryPagesShown || currentPage > pageCount - boundaryPagesShown ? boundaryPagesShown : centerPagesShown;
+      }
+
+      const range = {
+        start: Math.round(currentPage - delta / 2),
+        end: Math.round(currentPage + delta / 2),
+      };
+
+      if (range.start - 1 === 1 || range.end + 1 === pageCount) {
+        range.start += 1;
+        range.end += 1;
+      }
+      let pages = currentPage > delta ? getRange(Math.min(range.start, pageCount - delta), Math.min(range.end, pageCount)) : getRange(1, Math.min(pageCount, delta + 1));
+
+      if (currentPage > pageCount - boundaryPagesShown && pageCount > pagesShown) {
+        pages = getRange(pageCount - delta, pageCount);
+      }
+
+      const withDots = (value, pair) => (pages.length + 1 !== pageCount ? pair : [value]);
+      const lastPage = pages[pages.length - 1];
+
+      if (pages[0] !== 1) {
+        pages = withDots(1, [1, '...']).concat(pages);
+      }
+
+      if (lastPage && lastPage < pageCount) {
+        pages = pages.concat(withDots(pageCount, ['...', pageCount]));
+      }
+
+      return pages;
     },
   },
   methods: {
