@@ -8,8 +8,8 @@
         <div v-if="isImageError" class="text-3xl font-semibold">??</div>
         <img v-else :src="getImageUrl" alt="" @error="onImageError" @load="onImageLoad" />
       </div>
-      <h3 class="mt-3 text-sm font-medium text-indigo-500">#{{ number }}</h3>
-      <h3 class="text-xl font-semibold text-indigo-900">{{ name }}</h3>
+      <h3 class="mt-3 text-sm font-medium text-blue-500">#{{ number }}</h3>
+      <h3 class="text-xl font-semibold text-blue-900">{{ name }}</h3>
     </div>
   </li>
 </template>
@@ -51,7 +51,7 @@ export default {
 
 <style scoped>
 .card-color {
-  background: linear-gradient(150deg, #4f46e5 45%, transparent 45%);
+  background: linear-gradient(150deg, #2563eb 45%, transparent 45%);
 }
 
 @keyframes spin {

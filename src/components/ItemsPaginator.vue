@@ -1,18 +1,18 @@
 <template>
   <div class="flex items-center justify-between px-4 py-3 bg-white border-t border-gray-200 sm:px-6">
     <div class="flex justify-between flex-1 sm:hidden">
-      <button class="relative inline-flex items-center px-4 py-2 text-sm font-medium border rounded-md w-[25%] justify-center" :class="[hasPrevious ? 'bg-indigo-800 text-indigo-50' : 'bg-gray-100 text-gray-300']" :disabled="!hasPrevious" @click="onClickPrev">Previous</button>
+      <button class="relative inline-flex items-center px-4 py-2 text-sm font-medium border rounded-md w-[25%] justify-center" :class="[hasPrevious ? 'bg-blue-800 text-blue-50' : 'bg-gray-100 text-gray-300']" :disabled="!hasPrevious" @click="onClickPrev">Previous</button>
       <button class="relative inline-flex items-center px-4 py-2 text-sm border rounded-md whitespace-nowrap w-[25%] justify-center" @click="togglePaginateMenu" v-click-outside="closePaginationMenu">
         {{ currentPage }} of {{ totalPage }}
         <transition enter-active-class="duration-200 ease-out" enter-from-class="transform opacity-0" enter-to-class="opacity-100" leave-active-class="duration-200 ease-in" leave-from-class="opacity-100" leave-to-class="transform opacity-0">
-          <ul v-if="showPaginateMenu" ref="menuList" class="absolute h-[50dvh] overflow-auto text-gray-700 inset-x-0 bottom-11 dropdown-menu rounded-md bg-indigo-100 shadow-md">
+          <ul v-if="showPaginateMenu" ref="menuList" class="absolute h-[50dvh] overflow-auto text-gray-700 inset-x-0 bottom-11 dropdown-menu rounded-md bg-blue-100 shadow-md">
             <li v-for="x in totalPage" :key="x">
-              <button :data-page="x" class="w-full px-4 py-2 whitespace-nowrap" :class="[isCurrentPage(x) ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-200']" :disabled="isCurrentPage(x)" @click="onClickPage(x)">{{ x }}</button>
+              <button :data-page="x" class="w-full px-4 py-2 whitespace-nowrap" :class="[isCurrentPage(x) ? 'bg-blue-600 text-white' : 'hover:bg-blue-200']" :disabled="isCurrentPage(x)" @click="onClickPage(x)">{{ x }}</button>
             </li>
           </ul>
         </transition>
       </button>
-      <button class="relative inline-flex items-center px-4 py-2 text-sm font-medium border rounded-md w-[25%] justify-center" :class="[hasNext ? 'bg-indigo-800 text-indigo-50' : 'bg-gray-100 text-gray-300']" :disabled="!hasNext" @click="onClickNext">Next</button>
+      <button class="relative inline-flex items-center px-4 py-2 text-sm font-medium border rounded-md w-[25%] justify-center" :class="[hasNext ? 'bg-blue-800 text-blue-50' : 'bg-gray-100 text-gray-300']" :disabled="!hasNext" @click="onClickNext">Next</button>
     </div>
     <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
       <div>
@@ -38,7 +38,7 @@
             <button
               v-if="isNumber(paginate)"
               class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 transition duration-200 ease-in delay-150 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ring-1 ring-inset ring-gray-300"
-              :class="[{ 'bg-indigo-600 text-white hover:bg-indigo-600 focus:z-20 focus:outline-offset-0': isCurrentPage(paginate) }]"
+              :class="[{ 'bg-blue-600 text-white hover:bg-blue-600 focus:z-20 focus:outline-offset-0': isCurrentPage(paginate) }]"
               :disabled="isCurrentPage(paginate)"
               @click="onClickPage(paginate)"
             >
