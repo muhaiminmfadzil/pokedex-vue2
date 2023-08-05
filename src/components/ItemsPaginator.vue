@@ -2,6 +2,16 @@
   <div class="flex items-center justify-between px-4 py-3 bg-white border-t border-gray-200 sm:px-6">
     <div class="flex justify-between flex-1 sm:hidden">
       <button class="relative inline-flex items-center px-4 py-2 text-sm font-medium border rounded-md" :class="[hasPrevious ? 'bg-indigo-800 text-indigo-50' : 'bg-gray-100 text-gray-300']" :disabled="!hasPrevious" @click="onClickPrev">Previous</button>
+      <button class="relative inline-flex items-center px-4 py-2 text-sm border rounded-md" @click="togglePaginateMenu" v-click-outside="closePaginationMenu">
+        {{ currentPage }} of {{ totalPage }}
+        <transition enter-active-class="duration-200 ease-out" enter-from-class="transform opacity-0" enter-to-class="opacity-100" leave-active-class="duration-200 ease-in" leave-from-class="opacity-100" leave-to-class="transform opacity-0">
+          <ul v-if="showPaginateMenu" ref="menuList" class="absolute h-[50dvh] overflow-auto text-gray-700 inset-x-0 bottom-11 dropdown-menu rounded-md bg-indigo-100 shadow-md">
+            <li v-for="x in totalPage" :key="x">
+              <button :data-page="x" class="w-full px-4 py-2 whitespace-no-wrap" :class="[isCurrentPage(x) ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-200']" :disabled="isCurrentPage(x)" @click="onClickPage(x)">{{ x }}</button>
+            </li>
+          </ul>
+        </transition>
+      </button>
       <button class="relative inline-flex items-center px-4 py-2 ml-3 text-sm font-medium border rounded-md" :class="[hasNext ? 'bg-indigo-800 text-indigo-50' : 'bg-gray-100 text-gray-300']" :disabled="!hasNext" @click="onClickNext">Next</button>
     </div>
     <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
@@ -24,24 +34,20 @@
               <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
             </svg>
           </button>
-          <template v-for="(paginate, index) in paginationNumbers">
+          <div v-for="(paginate, index) in paginationNumbers" :key="`${paginate}-${index}`">
             <button
-              :key="`${paginate}-${index}`"
-              class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300"
-              :class="[{ 'bg-indigo-600 text-white hover:bg-indigo-600 focus:z-20 focus:outline-offset-0': isCurrentPage(paginate) }, isNumber(paginate) ? 'hover:bg-gray-50 focus:z-20 focus:outline-offset-0' : 'bg-gray-200']"
-              :disabled="isCurrentPage(paginate) || !isNumber(paginate)"
+              v-if="isNumber(paginate)"
+              class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 transition duration-200 ease-in delay-150 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ring-1 ring-inset ring-gray-300"
+              :class="[{ 'bg-indigo-600 text-white hover:bg-indigo-600 focus:z-20 focus:outline-offset-0': isCurrentPage(paginate) }]"
+              :disabled="isCurrentPage(paginate)"
               @click="onClickPage(paginate)"
             >
               {{ paginate }}
             </button>
-          </template>
-          <!-- <button aria-current="page" class="relative z-10 inline-flex items-center px-4 py-2 text-sm font-semibold bg-indigo-300 text-indigo-50 focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">1</button>
-          <button class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">2</button>
-          <button class="relative items-center hidden px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 md:inline-flex">3</button>
-          <span class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0">...</span>
-          <button class="relative items-center hidden px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 md:inline-flex">8</button>
-          <button class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">9</button>
-          <button class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">10</button> -->
+            <button v-else class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900" disabled>
+              {{ paginate }}
+            </button>
+          </div>
           <button class="relative inline-flex items-center px-2 py-2 text-gray-400 rounded-r-md ring-1 ring-inset ring-gray-300" :class="[hasNext ? 'hover:bg-gray-50 focus:outline-offset-0 focus:z-20' : 'text-gray-300 bg-gray-100']" :disabled="!hasNext" @click="onClickNext">
             <span class="sr-only">Next</span>
             <svg class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -55,7 +61,12 @@
 </template>
 
 <script>
+import ClickOutside from 'vue-click-outside';
+
 export default {
+  directives: {
+    ClickOutside,
+  },
   props: {
     totalCount: {
       type: Number,
@@ -73,6 +84,11 @@ export default {
       type: Number,
       default: 1,
     },
+  },
+  data() {
+    return {
+      showPaginateMenu: false,
+    };
   },
   computed: {
     totalPage() {
@@ -165,7 +181,25 @@ export default {
     },
     onClickPage(value) {
       this.$emit('update:currentPage', value);
-    }
+    },
+    togglePaginateMenu() {
+      this.showPaginateMenu = !this.showPaginateMenu;
+      if (this.showPaginateMenu) {
+        // Wait for the Vue to finish rendering and then scroll to the selected page
+        this.$nextTick(() => {
+          const menuList = this.$refs.menuList;
+          if (menuList) {
+            const selectedPageButton = menuList.querySelector(`button[data-page="${this.currentPage}"]`);
+            if (selectedPageButton) {
+              selectedPageButton.scrollIntoView({ block: 'center' });
+            }
+          }
+        });
+      }
+    },
+    closePaginationMenu() {
+      this.showPaginateMenu = false;
+    },
   },
 };
 </script>
