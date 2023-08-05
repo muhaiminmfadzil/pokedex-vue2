@@ -2,7 +2,7 @@
   <div class="flex items-center justify-between px-4 py-3 bg-white border-t border-gray-200 sm:px-6">
     <div class="flex justify-between flex-1 sm:hidden">
       <button class="relative inline-flex items-center px-4 py-2 text-sm font-medium border rounded-md" :class="[hasPrevious ? 'bg-indigo-800 text-indigo-50' : 'bg-gray-100 text-gray-300']" :disabled="!hasPrevious" @click="onClickPrev">Previous</button>
-      <button class="relative inline-flex items-center px-4 py-2 text-sm border rounded-md" @click="togglePaginateMenu">
+      <button class="relative inline-flex items-center px-4 py-2 text-sm border rounded-md" @click="togglePaginateMenu" v-click-outside="closePaginationMenu">
         {{ currentPage }} of {{ totalPage }}
         <transition enter-active-class="duration-200 ease-out" enter-from-class="transform opacity-0" enter-to-class="opacity-100" leave-active-class="duration-200 ease-in" leave-from-class="opacity-100" leave-to-class="transform opacity-0">
           <ul v-if="showPaginateMenu" ref="menuList" class="absolute h-[50dvh] overflow-auto text-gray-700 inset-x-0 bottom-11 dropdown-menu rounded-md bg-indigo-100 shadow-md">
@@ -61,7 +61,12 @@
 </template>
 
 <script>
+import ClickOutside from 'vue-click-outside';
+
 export default {
+  directives: {
+    ClickOutside,
+  },
   props: {
     totalCount: {
       type: Number,
@@ -191,6 +196,9 @@ export default {
           }
         });
       }
+    },
+    closePaginationMenu() {
+      this.showPaginateMenu = false;
     },
   },
 };
