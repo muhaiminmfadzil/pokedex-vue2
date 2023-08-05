@@ -51,7 +51,7 @@ export default {
 
 <style scoped>
 .card-color {
-  background: linear-gradient(150deg, #4f46e5 55%, transparent 55%);
+  background: linear-gradient(150deg, #4f46e5 45%, transparent 45%);
 }
 
 @keyframes spin {
