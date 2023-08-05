@@ -5,9 +5,9 @@
       <button class="relative inline-flex items-center px-4 py-2 text-sm border rounded-md" @click="togglePaginateMenu">
         {{ currentPage }} of {{ totalPage }}
         <transition enter-active-class="duration-200 ease-out" enter-from-class="transform opacity-0" enter-to-class="opacity-100" leave-active-class="duration-200 ease-in" leave-from-class="opacity-100" leave-to-class="transform opacity-0">
-          <ul v-if="showPaginateMenu" class="absolute h-[50dvh] overflow-auto text-gray-700 inset-x-0 bottom-11 dropdown-menu rounded-md bg-indigo-100 shadow-md">
+          <ul v-if="showPaginateMenu" ref="menuList" class="absolute h-[50dvh] overflow-auto text-gray-700 inset-x-0 bottom-11 dropdown-menu rounded-md bg-indigo-100 shadow-md">
             <li v-for="x in totalPage" :key="x">
-              <button class="w-full px-4 py-2 whitespace-no-wrap" :class="[isCurrentPage(x) ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-200']" :disabled="isCurrentPage(x)" @click="onClickPage(x)">{{ x }}</button>
+              <button :data-page="x" class="w-full px-4 py-2 whitespace-no-wrap" :class="[isCurrentPage(x) ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-200']" :disabled="isCurrentPage(x)" @click="onClickPage(x)">{{ x }}</button>
             </li>
           </ul>
         </transition>
@@ -179,6 +179,18 @@ export default {
     },
     togglePaginateMenu() {
       this.showPaginateMenu = !this.showPaginateMenu;
+      if (this.showPaginateMenu) {
+        // Wait for the Vue to finish rendering and then scroll to the selected page
+        this.$nextTick(() => {
+          const menuList = this.$refs.menuList;
+          if (menuList) {
+            const selectedPageButton = menuList.querySelector(`button[data-page="${this.currentPage}"]`);
+            if (selectedPageButton) {
+              selectedPageButton.scrollIntoView({ block: 'center' });
+            }
+          }
+        });
+      }
     },
   },
 };
