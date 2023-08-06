@@ -8,6 +8,10 @@ const routes = [
   { 
     path: '/',
     component: PokemonsView 
+  },
+  { 
+    path: '/:id',
+    component: () => import('../views/PokemonDetail.vue'),
   }
 ]
 
