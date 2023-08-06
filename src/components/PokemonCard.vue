@@ -25,48 +25,11 @@ export default {
       default: null,
     },
   },
-  data() {
-    return {
-      isImageLoading: true,
-      isImageError: false,
-    };
-  },
-  computed: {
-    getImageUrl() {
-      return `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${this.number}.png`;
-    },
-  },
-  methods: {
-    onImageError() {
-      this.isImageError = true;
-      this.isImageLoading = false;
-    },
-    onImageLoad() {
-      this.isImageLoading = false;
-    },
-  },
 };
 </script>
 
 <style scoped>
 .card-color {
   background: linear-gradient(150deg, #2563eb 45%, transparent 45%);
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.spinner {
-  border-top-color: transparent;
-  animation: spin 1s linear infinite;
-  border: 3px solid rgba(255, 255, 255, 0.3);
-  border-right-color: rgb(87, 87, 87);
-  border-radius: 50%;
-  display: inline-block;
-  width: 20px;
-  height: 20px;
 }
 </style>
