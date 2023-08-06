@@ -1,13 +1,7 @@
 <template>
   <li class="flex flex-col col-span-1 text-center duration-300 bg-white divide-y divide-gray-200 rounded-lg shadow hover:cursor-pointer sm:hover:shadow-lg sm:hover:scale-105">
     <div class="flex flex-col flex-1 p-4 rounded-lg card-color">
-      <div class="flex items-center justify-center mx-auto bg-white rounded-full h-36 w-36">
-        <div v-if="isImageLoading" class="flex items-center justify-center">
-          <div class="spinner"></div>
-        </div>
-        <div v-if="isImageError" class="text-3xl font-semibold">??</div>
-        <img v-else :src="getImageUrl" alt="" @error="onImageError" @load="onImageLoad" />
-      </div>
+      <pokemon-image :id="number" class="w-40 h-40 bg-white rounded-full" />
       <h3 class="mt-3 text-sm font-medium text-blue-500">#{{ number }}</h3>
       <h3 class="text-xl font-semibold text-blue-900">{{ name }}</h3>
     </div>
@@ -15,7 +9,12 @@
 </template>
 
 <script>
+import PokemonImage from '@/components/PokemonImage.vue';
+
 export default {
+  components: {
+    PokemonImage,
+  },
   props: {
     name: {
       type: String,
