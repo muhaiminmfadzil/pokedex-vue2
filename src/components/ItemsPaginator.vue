@@ -1,7 +1,7 @@
 <template>
   <div class="flex items-center justify-between px-4 py-3 bg-white border-t border-gray-200 sm:px-6">
     <div class="flex justify-between flex-1 sm:hidden">
-      <button class="relative inline-flex items-center px-4 py-2 text-sm font-medium border rounded-md w-[25%] justify-center" :class="[hasPrevious ? 'bg-blue-800 text-blue-50' : 'bg-gray-100 text-gray-300']" :disabled="!hasPrevious" @click="onClickPrev">Previous</button>
+      <button class="relative inline-flex items-center px-4 py-2 text-sm font-medium rounded-md w-[25%] justify-center" :class="[hasPrevious ? 'bg-blue-800 text-blue-50' : 'bg-gray-100 text-gray-300 border']" :disabled="!hasPrevious" @click="onClickPrev">Previous</button>
       <button class="relative inline-flex items-center px-4 py-2 text-sm border rounded-md whitespace-nowrap w-[25%] justify-center" @click="togglePaginateMenu" v-click-outside="closePaginationMenu">
         {{ currentPage }} of {{ totalPage }}
         <transition enter-active-class="duration-200 ease-out" enter-from-class="transform opacity-0" enter-to-class="opacity-100" leave-active-class="duration-200 ease-in" leave-from-class="opacity-100" leave-to-class="transform opacity-0">
@@ -12,7 +12,7 @@
           </ul>
         </transition>
       </button>
-      <button class="relative inline-flex items-center px-4 py-2 text-sm font-medium border rounded-md w-[25%] justify-center" :class="[hasNext ? 'bg-blue-800 text-blue-50' : 'bg-gray-100 text-gray-300']" :disabled="!hasNext" @click="onClickNext">Next</button>
+      <button class="relative inline-flex items-center px-4 py-2 text-sm font-medium rounded-md w-[25%] justify-center" :class="[hasNext ? 'bg-blue-800 text-blue-50' : 'bg-gray-100 text-gray-300 border']" :disabled="!hasNext" @click="onClickNext">Next</button>
     </div>
     <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
       <div>

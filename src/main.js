@@ -5,11 +5,14 @@ import './style.css'
 // Axios
 import './plugins/axios'
 // Router
-import router from './plugins/router'
+import router from './router'
+// Store
+import store from './store'
 
 Vue.config.productionTip = false
 
 new Vue({
   router,
+  store,
   render: h => h(App),
 }).$mount('#app')

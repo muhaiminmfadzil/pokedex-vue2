@@ -7,11 +7,12 @@
       <pokemon-card v-for="pokemon in pokemons" :key="pokemon.name" :name="pokemon.name" :number="pokemon.number" />
     </ul>
     <!-- Paginator -->
-    <items-paginator class="fixed bottom-0 left-0 w-full" :totalCount="totalCount" :currentPage.sync="currentPage" :pageSize="pageSize" :offset="offset" />
+    <items-paginator class="fixed bottom-0 left-0 w-full" :totalCount="totalCount" :currentPage.sync="page" :pageSize="pageSize" :offset="offset" />
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import PokemonCard from '@/components/PokemonCard.vue';
 import ItemsPaginator from '@/components/ItemsPaginator.vue';
 
@@ -24,7 +25,7 @@ export default {
     return {
       isFetching: false,
       totalCount: 0,
-      currentPage: 1,
+      // currentPage: 1,
       pageSize: 20,
       pokemons: [],
     };
@@ -38,6 +39,17 @@ export default {
     },
   },
   computed: {
+    ...mapGetters({
+      currentPage: 'pagination/getCurrentPage',
+    }),
+    page: {
+      get() {
+        return this.currentPage
+      },
+      set(value) {
+        this.$store.commit('pagination/setCurrentPage', value)
+      }
+    },
     offset() {
       return (this.currentPage - 1) * this.pageSize;
     },
