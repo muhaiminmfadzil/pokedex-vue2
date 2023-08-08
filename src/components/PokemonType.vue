@@ -79,10 +79,16 @@ export default {
   border-color: #90c12c;
 }
 .ghost-color {
-  color: black;
+  color: #5369ac;
+}
+.ghost-border-color {
+  border-color: #5369ac;
 }
 .steel-color {
-  color: black;
+  color: #5a8ea1;
+}
+.steel-border-color {
+  border-color: #5a8ea1;
 }
 .fire-color {
   color: #ff9c54;
@@ -127,10 +133,16 @@ export default {
   border-color: #0c6dc4;
 }
 .dark-color {
-  color: black;
+  color: #5a5366;
+}
+.dark-border-color {
+  border-color: #5a5366;
 }
 .fairy-color {
-  color: black;
+  color: #ec8fe6;
+}
+.fairy-border-color {
+  border-color: #ec8fe6;
 }
 .unknown-color {
   color: black;
