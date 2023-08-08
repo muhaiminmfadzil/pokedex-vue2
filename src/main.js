@@ -8,6 +8,8 @@ import './plugins/axios'
 import router from './router'
 // Store
 import store from './store'
+// Apex Chart
+import './plugins/apex-chart'
 
 Vue.config.productionTip = false
 
