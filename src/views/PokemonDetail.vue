@@ -28,7 +28,9 @@
           <div class="text-base font-semibold text-blue-400">#{{ stringId }}</div>
         </div>
         <!-- Types -->
-        <pokemon-type v-for="type in detail.types" :key="type.slot" :type="type.type" class="mr-1" />
+        <pokemon-type v-for="type in detail.types" :key="type.slot" :type="type.type" class="mb-4 mr-1" />
+        <!-- Status -->
+        <pokemon-status :stats="detail.stats" />
       </template>
     </div>
   </div>
@@ -38,12 +40,14 @@
 import AnimatedSpinner from '@/components/AnimatedSpinner.vue';
 import PokemonImage from '@/components/PokemonImage.vue';
 import PokemonType from '@/components/PokemonType.vue';
+import PokemonStatus from '@/components/PokemonStatus.vue';
 
 export default {
   components: {
     AnimatedSpinner,
     PokemonImage,
     PokemonType,
+    PokemonStatus,
   },
   data() {
     return {
