@@ -37,8 +37,8 @@
           <div v-for="(paginate, index) in paginationNumbers" :key="`${paginate}-${index}`">
             <button
               v-if="isNumber(paginate)"
-              class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 transition duration-200 ease-in delay-150 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ring-1 ring-inset ring-gray-300"
-              :class="[{ 'bg-blue-600 text-white hover:bg-blue-600 focus:z-20 focus:outline-offset-0': isCurrentPage(paginate) }]"
+              class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 transition duration-200 ease-in delay-150 ring-1 ring-inset ring-gray-300"
+              :class="[isCurrentPage(paginate) ? 'bg-blue-600 text-white' : 'hover:bg-blue-100 focus:z-20 focus:outline-offset-0']"
               :disabled="isCurrentPage(paginate)"
               @click="onClickPage(paginate)"
             >
