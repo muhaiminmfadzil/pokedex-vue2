@@ -10,9 +10,13 @@ const routes = [
     component: PokemonsView 
   },
   { 
+    path: '/about',
+    component: () => import('../views/AboutView.vue'),
+  },
+  { 
     path: '/:id',
     component: () => import('../views/PokemonDetail.vue'),
-  }
+  },
 ]
 
 const router = new VueRouter({
