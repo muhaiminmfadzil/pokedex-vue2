@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-blue-200">
+  <div class="min-h-screen">
     <!-- Logo -->
     <img class="object-cover w-64 h-32 pt-4 mx-auto" src="https://www.freepnglogos.com/uploads/pokemon-logo-png-0.png" alt="Pokemon Logo Png" />
     <!-- Listing -->
