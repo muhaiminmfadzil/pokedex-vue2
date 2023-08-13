@@ -2,6 +2,14 @@
 Simple project to demonstrate fetching and displaying data from [pokemon api](https://pokeapi.co/api/v2)
 This is part of my long life learning (L3) journey for front end technology
 
+## Built with
+
+VueJS (V2), Tailwind CSS, Heroicons
+
+## Deployment
+
+Vercel
+
 ## Prerequisite
 1. Make sure [nodejs](https://nodejs.org/en) is installed in your local machine
 2. To check nodejs via your terminal
