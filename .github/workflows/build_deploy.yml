@@ -30,7 +30,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ vars.DOCKERHUB_REGISTRY }}:pokedex-vue2-${{ steps.short-sha.outputs.sha }}
+          tags: ${{ vars.DOCKERHUB_REGISTRY }}:pokedex-vue2-${{ github.ref_name }}-${{ steps.short-sha.outputs.sha }}
 
   # deploy:
   #   needs: build
