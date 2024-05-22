@@ -6,31 +6,26 @@ on:
       - test
 
 jobs:
-  create-image-url:
+  create_image_url:
     runs-on: ubuntu-latest
     steps:
       - name: Get Github short sha
         uses: benjlevesque/short-sha@v3.0
         id: short-sha
-
-      - id: image-url
-        name: Preset Image URL
-        outputs:
-          IMAGE_URL: "docker.io/${{ vars.DOCKERHUB_REPOSITORY_NAME }}:pokedex-vue2-$(echo ${{ github.ref_name }})-$(echo ${{ steps.short-sha.outputs.sha }})"
-
-      - name: Echo Image URL
-        run: echo ${{ steps.image-url.outputs.IMAGE_URL }}
-
+      - name: Preset Image URL
+        id: set_image_url
+        run: echo "IMAGE_URL=$(echo docker.io/${{ vars.DOCKERHUB_REPOSITORY_NAME }}:pokedex-vue2-$(echo ${{ github.ref_name }})-$(echo ${{ steps.short-sha.outputs.sha }}))" >> $GITHUB_OUTPUT
+    outputs:
+      IMAGE_URL: ${{ steps.set_image_url.outputs.IMAGE_URL }}
 
   build:
     needs: create_image_url
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Echo Image URL
-        run: echo ${{ steps.image-url.outputs.IMAGE_URL }}
+      - name: Testing
+        run: echo ${{ needs.create_image_url.outputs.IMAGE_URL }}
+      # - name: Checkout
+      #   uses: actions/checkout@v4
 
   #     - name: Get Github short sha
   #       uses: benjlevesque/short-sha@v3.0
