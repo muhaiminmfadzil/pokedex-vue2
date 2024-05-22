@@ -6,48 +6,75 @@ on:
       - test
 
 jobs:
-  build:
+  create_image_url:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
       - name: Get Github short sha
         uses: benjlevesque/short-sha@v3.0
         id: short-sha
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Preset Image Name
-        run: echo "IMAGE_URL=$(echo docker.io/${{ vars.DOCKERHUB_REPOSITORY_NAME }}:pokedex-vue2-$(echo ${{ github.ref_name }})-$(echo ${{ steps.short-sha.outputs.sha }}))" >> $GITHUB_ENV
+      - name: Preset Image URL
+        id: image-url
+        outputs:
+          IMAGE_URL: "docker.io/${{ vars.DOCKERHUB_REPOSITORY_NAME }}:pokedex-vue2-$(echo ${{ github.ref_name }})-$(echo ${{ steps.short-sha.outputs.sha }})"
 
       - name: Echo Image URL
-        run: echo ${{ env.IMAGE_URL }}
+        run: echo ${{ steps.image-url.outputs.IMAGE_URL }}
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-            username: ${{ secrets.DOCKERHUB_USERNAME }}
-            password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          tags: ${{ env.IMAGE_URL }}
-
-  deploy:
-    needs: build
+  build:
+    needs: create_image_url
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Echo Image URL
-        run: echo ${{ env.IMAGE_URL }}
+        run: echo ${{ steps.image-url.outputs.IMAGE_URL }}
 
+  #     - name: Get Github short sha
+  #       uses: benjlevesque/short-sha@v3.0
+  #       id: short-sha
+
+  #     - name: Set up Docker Buildx
+  #       uses: docker/setup-buildx-action@v3
+
+  #     - name: Preset Image Name
+  #       run: echo "IMAGE_URL=$(echo docker.io/${{ vars.DOCKERHUB_REPOSITORY_NAME }}:pokedex-vue2-$(echo ${{ github.ref_name }})-$(echo ${{ steps.short-sha.outputs.sha }}))" >> $GITHUB_ENV
+
+  #     - name: Echo Image URL
+  #       run: echo ${{ env.IMAGE_URL }}
+
+  #     - name: Login to Docker Hub
+  #       uses: docker/login-action@v3
+  #       with:
+  #           username: ${{ secrets.DOCKERHUB_USERNAME }}
+  #           password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+  #     - name: Build and push image
+  #       uses: docker/build-push-action@v5
+  #       with:
+  #         context: .
+  #         push: true
+  #         tags: ${{ env.IMAGE_URL }}
+
+  # deploy:
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
+
+  #     - name: Echo Image URL
+  #       run: echo ${{ env.IMAGE_URL }}
+
+  #     - name: Deploy Image to CapRrover
+  #       uses: caprover/deploy-from-github@v1.1.2
+  #       with:
+  #         server: "${{ secrets.CAPROVER_SERVER }}"
+  #         app: "${{ secrets.APP_NAME }}"
+  #         token: "${{ secrets.APP_TOKEN }}"
+  #         image: ${{ env.IMAGE_URL }}
   # update-tag:
   #   runs-on: ubuntu-latest
   #   needs: deploy
