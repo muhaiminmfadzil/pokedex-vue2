@@ -22,21 +22,21 @@ jobs:
       - name: Preset Image Name
         run: echo "IMAGE_URL=$(echo docker.io/${{ vars.DOCKERHUB_REPOSITORY_NAME }}:pokedex-vue2-$(echo ${{ github.ref_name }})-$(echo ${{ steps.short-sha.outputs.sha }}))" >> $GITHUB_ENV
 
-      - name: Image name
+      - name: Echo Image Name
         run: echo ${{ env.IMAGE_URL }}
-      # - name: Login to Docker Hub
-      #   uses: docker/login-action@v3
-      #   with:
-      #       username: ${{ secrets.DOCKERHUB_USERNAME }}
-      #       password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # - name: Build
-      #   uses: docker/build-push-action@v5
-      #   with:
-      #     context: .
-      #     push: true
-      #     tags: ${{ env.IMAGE_URL }}
-          # tags: ${{ vars.DOCKERHUB_REGISTRY }}:pokedex-vue2-${{ github.ref_name }}-${{ steps.short-sha.outputs.sha }}
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+            username: ${{ secrets.DOCKERHUB_USERNAME }}
+            password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ env.IMAGE_URL }}
 
   # deploy:
   #   needs: build
