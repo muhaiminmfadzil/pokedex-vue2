@@ -17,7 +17,7 @@
       <div class="inline-block px-2 py-1 mt-4 mb-2 text-white bg-blue-800 rounded-lg">Built with</div>
       <div>VueJs (V2), Tailwind CSS, Heroicons</div>
       <div class="inline-block px-2 py-1 mt-4 mb-2 text-white bg-blue-800 rounded-lg">Deployment</div>
-      <div>Vercel</div>
+      <div>Netlify</div>
     </div>
   </div>
 </template>
