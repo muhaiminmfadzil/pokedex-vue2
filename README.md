@@ -44,4 +44,4 @@ yarn build
 2. Dist directory will be ready for deployment once finished
 
 ## Additional notes
-1. Live preview is available [here](https://pokedex-vue2.meenkun.com)
+1. Live preview is available [here](https://mf-pokedex-vue2.netlify.app)
